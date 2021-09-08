@@ -9,47 +9,104 @@
 public class Solution {
     public ListNode reorderList(ListNode A) {
         
-        ArrayList<ListNode> list = new ArrayList<>();
+        // ArrayList<ListNode> list = new ArrayList<>(); // By using extra space;
+        
+        // ListNode curr = A;
+        // list.add(curr);
+        
+        // while(curr.next != null){
+        //     curr = curr.next;
+        //     list.add(curr);
+        // }
+        
+        // int n = list.size();
+        
+        
+        // ListNode first = null;
+        // ListNode last = null;
+        // ListNode temp = A;
+        
+        // if((n&1) == 0){
+        //     for(int i=0; i<n/2; i++){
+        //         first = list.get(i);
+        //         temp = first.next;
+                
+        //         last = list.get(n-i-1);
+        //         first.next = last;
+        //         last.next = temp;
+        //     }
+        //     last.next = null;
+            
+        // }
+        // else{
+        //     for(int i=0; i<n/2; i++){
+        //         first = list.get(i);
+        //         temp = first.next;
+                
+        //         last = list.get(n-i-1);
+        //         first.next = last;
+        //         last.next = temp;
+        //     }
+        //     temp.next = null;
+        // }
+        // ListNode ans = list.get(0);
+        // return  ans;
+        
+        
+        ListNode temp = A;
+        int n = 1;
+       
+        while(temp.next != null){
+            temp = temp.next;
+            n++;
+        }
+        // System.out.println(n);
+        if(n==1) return A;
         
         ListNode curr = A;
-        list.add(curr);
-        
-        while(curr.next != null){
+        int count = 1;
+        while(count != n/2){
             curr = curr.next;
-            list.add(curr);
+            count++;
         }
+        // System.out.println(curr.next.val);
+        ListNode stop = curr.next;
         
-        int n = list.size();
+        ListNode revhead = reverse(curr.next);
         
+        // System.out.println(revhead.val);
         
-        ListNode first = null;
-        ListNode last = null;
-        ListNode temp = A;
+        ListNode revtemp = null;
         
-        if(n%2 == 0){
-            for(int i=0; i<n/2; i++){
-                first = list.get(i);
-                temp = first.next;
-                
-                last = list.get(n-i-1);
-                first.next = last;
-                last.next = temp;
-            }
-            last.next = null;
+        int finalcount = 0;
+        ListNode first = A;
+        ListNode firsttemp = null;
+        
+        while(finalcount!=n/2){
+            firsttemp = first.next;
+            revtemp = revhead.next;
+        
+            first.next = revhead;
+            revhead.next = firsttemp;
             
+            first = firsttemp;
+            revhead = revtemp;
+            finalcount++;
         }
-        else{
-            for(int i=0; i<n/2; i++){
-                first = list.get(i);
-                temp = first.next;
-                
-                last = list.get(n-i-1);
-                first.next = last;
-                last.next = temp;
-            }
-            temp.next = null;
+        stop.next = null;
+        return A;
+    }
+    
+    ListNode reverse(ListNode head){
+        ListNode curr = head;
+        ListNode prev = null;
+        
+        while(curr!=null){
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
         }
-        ListNode ans = list.get(0);
-        return  ans;
+        return prev;
     }
 }
