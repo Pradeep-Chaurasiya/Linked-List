@@ -9,18 +9,41 @@
 public class Solution {
     public ListNode solve(ListNode A) {
         
-        HashSet<ListNode> set = new HashSet<>();
+        // HashSet<ListNode> set = new HashSet<>();  // by using exrtra space
         
-        ListNode temp = A;
-        set.add(temp);
+        // ListNode temp = A;
+        // set.add(temp);
         
-        while(temp.next != null){
-            ListNode prev = temp;
-            temp = temp.next;
-            if(!set.contains(temp)) set.add(temp);
-            else if(set.contains(temp)){
-                prev.next = null;
-                return A;
+        // while(temp.next != null){
+        //     ListNode prev = temp;
+        //     temp = temp.next;
+        //     if(!set.contains(temp)) set.add(temp);
+        //     else if(set.contains(temp)){
+        //         prev.next = null;
+        //         return A;
+        //     }
+        // }
+        // return A;
+        
+        ListNode slow = A;
+        ListNode fast = A;
+        
+        while(fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+            
+            if(slow.hashCode() == fast.hashCode()){
+                slow = A;
+                while(fast.next != null){
+                    slow = slow.next;
+                    ListNode prev = fast;
+                    
+                    fast = fast.next;
+                    if(slow.hashCode() == fast.hashCode()){
+                        prev.next = null;
+                        return A;
+                    }
+                }
             }
         }
         return A;
